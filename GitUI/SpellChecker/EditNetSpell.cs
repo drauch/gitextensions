@@ -777,7 +777,10 @@ namespace GitUI.SpellChecker
             _autoCompleteList.ContinueWith(r =>
             {
                 if (r.IsCompleted && !r.IsCanceled)
-                    _wordDictionary.AddCommitWords(r.Result.Select(x => x.Word));
+                {
+                    this.InvokeAsync(() =>
+                        _wordDictionary.AddCommitWords(r.Result.Select(x => x.Word)));
+                }
             });
         }
 
