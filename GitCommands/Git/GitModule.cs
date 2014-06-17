@@ -2116,7 +2116,7 @@ namespace GitCommands
 
         private string GetFileContents (string path)
         {
-            var contents = RunGitCmdResult(string.Format("show HEAD:\"{0}\"", path.Replace('\\', '/')));
+            var contents = RunGitCmdResult(string.Format("show HEAD:\"{0}\"", path.ToPosixPath()));
             if (contents.ExitCode == 0)
                 return contents.StdOutput;
 
