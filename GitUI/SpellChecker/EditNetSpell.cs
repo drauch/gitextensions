@@ -257,8 +257,6 @@ namespace GitUI.SpellChecker
                         {
                             DictionaryFile = dictionaryFile
                         };
-
-                //_wordDictionary.AddCommitWords(_autoCompleteList.Select(w => w.Word));
             }
 
             _spelling.Dictionary = _wordDictionary;
@@ -861,17 +859,22 @@ namespace GitUI.SpellChecker
 
         private string GetWordAtCursor ()
         {
-            if (TextBox.Text.Length > TextBox.SelectionStart && !char.IsWhiteSpace(TextBox.Text[TextBox.SelectionStart]))
+            if (TextBox.Text.Length > TextBox.SelectionStart && IsSeparatorChar(TextBox.Text[TextBox.SelectionStart]))
                 return null;
 
             var sb = new StringBuilder();
 
             int i = TextBox.SelectionStart - 1;
 
-            while (i >= 0 && !char.IsWhiteSpace(TextBox.Text[i]))
+            while (i >= 0 && !IsSeparatorChar(TextBox.Text[i]))
                 sb.Insert(0, TextBox.Text[i--]);
 
             return sb.ToString();
+        }
+
+        private bool IsSeparatorChar (char c)
+        {
+            return char.IsWhiteSpace(c) || c == '.';
         }
 
         private void CloseAutoComplete ()
