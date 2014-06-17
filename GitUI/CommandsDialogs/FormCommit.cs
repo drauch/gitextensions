@@ -163,6 +163,9 @@ namespace GitUI.CommandsDialogs
             Message.TextChanged += Message_TextChanged;
             Message.TextAssigned += Message_TextAssigned;
 
+            if (Module != null)
+                Message.EnableAutoCompletion(Module);
+
             Loading.Image = Properties.Resources.loadingpanel;
 
             Translate();
@@ -236,6 +239,8 @@ namespace GitUI.CommandsDialogs
 
         private void FormCommitFormClosing(object sender, FormClosingEventArgs e)
         {
+            Message.CancelAutoComplete();
+
             // Do not remember commit message of fixup or squash commits, since they have
             // a special meaning, and can be dangerous if used inappropriately.
             if (CommitKind.Normal == _commitKind)
